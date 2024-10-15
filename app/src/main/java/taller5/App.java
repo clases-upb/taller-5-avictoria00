@@ -25,10 +25,37 @@ public class App {
         
     
     */ 
+  public static int Encontrar_aleatorio (int numero){
 
+        try {
 
+            final int fin = 9999, ini = 1000, rango = 1; 
+            int alea = 0, cont = 0;
 
+            System.out.println("ingrese un número del 1000 al 9999");
+            Scanner teclado = new Scanner(System.in);
+            numero = teclado.nextInt();
 
+            if (numero >= ini && numero <= fin){
+                while(alea != numero){
+                    alea = (int)(Math.random()*(fin - ini) + ini + rango);
+                    if (alea == numero)
+                        System.out.println("la cantidad de números hasta llegar al solicitado: ");
+                    else
+                        cont ++;
+                }
+                return cont;
+            }
+            else{
+                System.out.println("el número debe estar entre 1000 y 9999");
+                return -1;
+            }
+        } 
+        catch(Exception e) {
+            return -1;
+        }
+  }
+    
     /* 
      
         2.	Se requiere una función en java que simule las ventas de tres años para un almacén. Para cada año, deberá generar 
@@ -62,8 +89,47 @@ public class App {
       
     */
 
-    
+    public static String Ventas(){
 
+        try {
+            final long minimo_ventas = 30000000, maximo_ventas= 100000000;
+            final int simulables = 3, meses = 12;
+            long ventas_x_mes = 0, total_ventas = 0, fin_simul = 0;
+            String  mensaje_mes = "", mensaje_total_ventas = "", mensaje_fin = "";
+
+            DecimalFormat formato = new DecimalFormat("$##,###.00");
+
+            for(int inicio = 1; inicio <= simulables; inicio ++){
+
+                System.out.println("Año" + inicio + ":");
+
+                for(int mes_inicio = 1; mes_inicio <= meses; mes_inicio ++){
+                    ventas_x_mes = (int)(Math.random() * (maximo_ventas - minimo_ventas) + minimo_ventas);
+                    total_ventas = total_ventas + ventas_x_mes;
+                    mensaje_mes = formato.format(ventas_x_mes);
+                    System.out.println("la ventas del mes " + mes_inicio + " es igual a: " + mensaje_mes);
+                }
+
+                mensaje_total_ventas = formato.format(total_ventas);
+                fin_simul = fin_simul + total_ventas;
+                System.out.println("el total de ventas del año " + inicio + " es: " + mensaje_total_ventas + "\n");
+
+            }
+
+            mensaje_fin = formato.format(fin_simul);
+
+            System.out.println("el total de ventas de los últimos 3 años: ");
+
+            return mensaje_fin;
+
+        } 
+
+        catch (Exception e) {
+            
+            String error = "Ha ocurrido un error inesperado " + e;
+            return error;
+        }
+    }
 
 
     /*  
@@ -86,9 +152,40 @@ public class App {
 
     */
 
+public static String Calcular_empaque(int bombillas){
+        try {
+           int cajas = 30, paq_galletas = 16, ciclo=16, nro_cajas = (bombillas / cajas ),
+            residuo_bombillos = (bombillas % cajas), paquetes = (int)Math.ceil((double) nro_cajas / paq_galletas); 
 
+            
+            String txt_retornar = " en el caso de " + bombillas + " bombillas, se necesitarán " + nro_cajas + " cajas y un total de" + paq_galletas + 
+            " pallets. Por lo cual, " + residuo_bombillos + " bombillos no tendrán empaque. el modo de empacar será: \n";
 
-    
+            for(int i=1;i<=paq_galletas;i++){
+                txt_retornar = txt_retornar + "pallet "+ i+" --> ";
+                while(ciclo>0){
+                    if(nro_cajas<=0){
+                        txt_retornar = txt_retornar + "";
+                    }else{
+                    txt_retornar = txt_retornar+ "caja "+ nro_cajas +", ";
+                    }
+                    nro_cajas--;
+                    ciclo--;
+                }
+                txt_retornar+="\n";
+                ciclo = paquetes;
+                if(nro_cajas ==0){
+                    return txt_retornar;
+                }
+                
+            }
+            
+            return txt_retornar;
+        }
+        catch (Exception e) {
+            return "error en Calcular_empaque";
+        }
+    }
 
     /* 
     
@@ -111,7 +208,41 @@ public class App {
 
 
     */
+ 
+     public static String Jugar_21(byte jugadores){
+        try {
+            String total= "";
+            byte alea_1=0, alea_2=0, alea_3=0, suma=0;
+            final byte  nro_max = 6, veinte_uno=21;
+            
+            total = total +  " Si saca 21 exactos: juego perfecto \n Si saca más de 21: se pasó \n Si saca menos de 21: faltaron puntos \n";
 
+            if(jugadores < 1 && jugadores > nro_max)
+                return "no cumple el ralgo de jugadores";
+            else{
+                for(byte jug_=1; jug_<= jugadores; jug_++){
+                    
+                        alea_1=(byte)(Math.random()*(10)+1);
+                        alea_2=(byte)(Math.random()*(10)+1);
+                        alea_3=(byte)(Math.random()*(10)+1);
+                        suma=(byte)(alea_1+alea_2+alea_3);
+                        total= total +  "jugador "+ jug_ + ", " + " puntos " + suma;
+
+                    if (suma ==veinte_uno)
+                        total = total + " -- > juego perfecto \n";
+                    else if (suma > veinte_uno)
+                        total = total + " -- > se pasó \n";
+                    else 
+                        total = total + " -- > faltaron puntos \n";
+                }
+            }
+
+            return total;
+
+        } catch (Exception e) {
+            return "error ";
+        }
+    }
 
 
 }
